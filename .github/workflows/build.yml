@@ -51,9 +51,9 @@ jobs:
         run: |
           npm run test -- --coverage || true
 
-      - - name: Build backend
-      - working-directory: backend
-      - run: mvn clean install -DskipTests
+      - name: Build backend
+        working-directory: backend
+        run: mvn clean install -DskipTests
 
       - name: SonarCloud Scan
         env:
@@ -63,4 +63,3 @@ jobs:
             -Dsonar.projectBaseDir=. \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
             -DskipTests
-      

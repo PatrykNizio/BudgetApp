@@ -26,13 +26,13 @@ public class DebtGraphQLController {
 
     @QueryMapping
     public List<Debt> groupDebts(@Argument Long groupId) {
-        return debtService.getGroupDebts(groupId).stream()
-                .peek(debt -> {
-                    if (debt.getTitle() == null) {
-                        debt.setTitle("Brak opisu");
-                    }
-                })
-                .toList();
+        List<Debt> debts = debtService.getGroupDebts(groupId);
+        for (Debt debt : debts) {
+            if (debt.getTitle() == null) {
+                debt.setTitle("Brak opisu");
+            }
+        }
+        return debts;
     }
 
     @MutationMapping

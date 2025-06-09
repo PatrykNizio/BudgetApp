@@ -22,6 +22,9 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .cors(cors -> {})
+                // CSRF protection is disabled because this application uses stateless JWT authentication.
+                // All endpoints (except /api/auth/** and /graphql) require authentication.
+                // This is safe as long as you do not use session-based authentication or expose endpoints to browsers without proper CORS and authentication.
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**", "/graphql").permitAll()

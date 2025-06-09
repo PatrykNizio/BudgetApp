@@ -27,7 +27,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-m2-${{ hashFiles('backend/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
       - name: Cache SonarCloud packages
@@ -56,10 +56,10 @@ jobs:
         run: mvn clean install -DskipTests
 
       - name: SonarCloud Scan
+        working-directory: backend
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-            -Dsonar.projectBaseDir=. \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
             -DskipTests
